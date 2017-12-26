@@ -6,7 +6,6 @@ with open("Mouseevents.txt", "a") as f:
             (x, y)))
         f.write("%d, %d" % (x, y) + ", ")
 
-
     def on_click(x, y, button, pressed):
         with open("Mouseevents.txt", "a") as f:
             if pressed:
@@ -19,11 +18,7 @@ with open("Mouseevents.txt", "a") as f:
 
     def on_scroll(x, y, dx, dy):
         pass
-        #print('Scrolled {0} at {1}'.format(
-            #'down' if dy < 0 else 'up',
-            #(x, y)))
 
-# Collect events until released
     with mouse.Listener(
             on_move=on_move,
             on_click=on_click,

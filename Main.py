@@ -1,11 +1,5 @@
-import matplotlib.pyplot as plt
-import numpy as np
-from plotly import __version__
-from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
-from plotly.graph_objs import Scatter, Figure, Layout
+from plotly.offline import plot
 from plotly.graph_objs import *
-
-#here's our data to plot, all normal Python lists
 
 with open("Mouseevents.txt", "r") as f:
     x = []
@@ -20,16 +14,19 @@ with open("Mouseevents.txt", "r") as f:
             y.append(coordinates)
         counter += 1
 
-print(len(x))
-print(len(y))
+graph = graph_objs.Histogram2dContour(name = "Mouse movement Heatmap",
+                               x = x,
+                               y = y,
+                               contours = dict(showlines = False),
+                               xbins = dict(start = 0,
+                                            size = 50,
+                                            end = 1920),
+                               ybins = dict(start=0,
+                                            size = 50,
+                                            end=1080),
+                               colorscale = [[0, 'rgb(0,0,255)'], [0.5, 'rgb(255,255,0)'], [1, 'rgb(255,0,0)']],
+                               showscale = True)
 
-layout = graph_objs.Layout(
-    xaxis=dict(
-        range=[0, 1920]
-    ),
-    yaxis=dict(
-        range=[0, 1080]
-    )
-)
-fig = graph_objs.Figure(data = [Histogram2dContour(x=x, y=y, contours=Contours(coloring='heatmap'))], layout = layout)
+trace = [graph]
+fig = graph_objs.Figure(data = trace)
 plot(fig, show_link=False)
