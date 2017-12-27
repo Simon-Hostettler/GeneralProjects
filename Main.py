@@ -1,6 +1,7 @@
 from plotly.offline import plot
 from plotly.graph_objs import *
 
+# read file and put date into x and y lists
 with open("Mouseevents.txt", "r") as f:
     x = []
     y = []
@@ -14,6 +15,13 @@ with open("Mouseevents.txt", "r") as f:
             y.append(coordinates)
         counter += 1
 
+# reverse yaxis for same orientation as screen
+layout = graph_objs.Layout(
+    yaxis=dict(
+        autorange='reversed'
+    )
+)
+# graph settings like color, datasize, etc.
 graph = graph_objs.Histogram2dContour(name = "Mouse movement Heatmap",
                                x = x,
                                y = y,
@@ -24,9 +32,9 @@ graph = graph_objs.Histogram2dContour(name = "Mouse movement Heatmap",
                                ybins = dict(start=0,
                                             size = 50,
                                             end=1080),
-                               colorscale = [[0, 'rgb(0,0,255)'], [0.5, 'rgb(255,255,0)'], [1, 'rgb(255,0,0)']],
-                               showscale = True)
+                               colorscale = [[0, 'rgb(0,0,255)'], [0.5, 'rgb(255,255,0)'], [1, 'rgb(255,0,0)']])
 
+# transform graph into array, add layout and plot as html file
 trace = [graph]
-fig = graph_objs.Figure(data = trace)
+fig = graph_objs.Figure(data = trace, layout = layout)
 plot(fig, show_link=False)
