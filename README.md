@@ -1,1 +1,1 @@
-This is a collection of smaller scripts for different ideas I have
+This is a collection of smaller scripts, which I didn't want to create separate repos for.
