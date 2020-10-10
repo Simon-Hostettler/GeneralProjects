@@ -1,5 +1,6 @@
 {
     "python.pythonPath": "C:\\Users\\pokef\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "python.autoComplete.extraPaths": ["C:\\Users\\pokef\\PythonProjects\\GeneralProjects\\MBJuliaSetGenerator"],
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }
