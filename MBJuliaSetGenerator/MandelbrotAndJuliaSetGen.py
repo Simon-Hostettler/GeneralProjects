@@ -1,5 +1,8 @@
 from PIL import Image, ImageColor
 from palette import palette
+import sys
+
+current_path = sys.path[0]
 
 IMG_RATIO = 16/9
 IMG_HEIGHT = 1000
@@ -24,7 +27,7 @@ def draw_mandelbrot():
             img.putpixel((x, y), palette[iterations])
         x % 100 == 0 and print(f"Column {x} is done")
 
-    img.save("./Mandelbrot.png", quality=100)
+    img.save(current_path + "\\Images\\Mandelbrot.png", quality=100)
 
 
 def draw_julia_set():
@@ -36,7 +39,7 @@ def draw_julia_set():
             img.putpixel((x, y), palette[iterations])
         x % 100 == 0 and print(f"Column {x} is done")
 
-    img.save("./Julia.png", quality=100)
+    img.save(current_path + "\\Images\\Julia.png", quality=100)
 
 
 def mb_function(z, c, counter):
