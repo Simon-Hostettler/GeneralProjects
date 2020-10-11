@@ -1,6 +1,6 @@
-from PIL import Image, ImageColor
-from palette import palette
+from PIL import Image
 import sys
+import matplotlib.colors
 
 current_path = sys.path[0]
 MBorJulia = {"MB": 1, "Julia": 0}
@@ -13,10 +13,18 @@ RANGE_X = (-1.5*IMG_RATIO, 3.0*IMG_RATIO)
 RANGE_Y = (-1.5, 3.0)
 
 ITERATIONS = 255
-JUL_CMPLX = complex(0.285, 0.01)
+EXP_DEGREE = 5
+ESCAPE_RADIUS = 2**EXP_DEGREE
+JUL_CMPLX = complex(0.8, 0.6)
 
-for i in range(len(palette)):
-    palette[i] = ImageColor.getrgb(palette[i])
+matplotpalette = matplotlib.colors.LinearSegmentedColormap.from_list(
+    "", [matplotlib.colors.to_rgb("#000020"), "teal", "linen"], N=256)
+palette = []
+for i in range(ITERATIONS+1):
+    matplotcolor = matplotlib.colors.to_rgb(matplotpalette((1/255.0)*i))
+    color = (int(matplotcolor[0]*255), int(matplotcolor[1]*255), int(
+                matplotcolor[2]*255))
+    palette.append(color)
 
 
 def draw_mandelbrot():
@@ -28,7 +36,7 @@ def draw_mandelbrot():
                 abs(RANGE_Y[0]) - y*(RANGE_Y[1]/IMG_HEIGHT))
             iterations = mb_function(0, cmplx, 0)
             img.putpixel((x, y), palette[iterations])
-        x % 100 == 0 and print(f"Column {x} is done")
+        x % 100 == 0 and print(f"Column {x}/{IMG_WIDTH} is done")
 
     img.save(current_path + "\\Images\\Mandelbrot.png", quality=100)
 
@@ -42,14 +50,14 @@ def draw_julia_set():
                 abs(RANGE_Y[0]) - y*(RANGE_Y[1]/IMG_HEIGHT))
             iterations = mb_function(cmplx, JUL_CMPLX, 0)
             img.putpixel((x, y), palette[iterations])
-        x % 100 == 0 and print(f"Column {x} is done")
+        x % 100 == 0 and print(f"Column {x}/{IMG_WIDTH} is done")
 
     img.save(current_path + "\\Images\\Julia.png", quality=100)
 
 
 def mb_function(z, c, counter):
-    new_z = z*z + c
-    if counter < ITERATIONS and abs(new_z) <= 4:
+    new_z = z**EXP_DEGREE + c
+    if counter < ITERATIONS and abs(new_z) <= ESCAPE_RADIUS:
         return mb_function(new_z, c, counter+1)
     else:
         return counter
