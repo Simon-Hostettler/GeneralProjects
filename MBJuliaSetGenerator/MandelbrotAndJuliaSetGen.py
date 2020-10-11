@@ -3,16 +3,17 @@ from palette import palette
 import sys
 
 current_path = sys.path[0]
+MBorJulia = {"MB": 1, "Julia": 0}
 
 IMG_RATIO = 16/9
-IMG_HEIGHT = 10000
+IMG_HEIGHT = 1000
 IMG_WIDTH = int(IMG_RATIO * IMG_HEIGHT)
 
 RANGE_X = (-1.5*IMG_RATIO, 3.0*IMG_RATIO)
 RANGE_Y = (-1.5, 3.0)
 
 ITERATIONS = 255
-JUL_CMPLX = complex(0.0, 1.0)
+JUL_CMPLX = complex(0.285, 0.01)
 
 for i in range(len(palette)):
     palette[i] = ImageColor.getrgb(palette[i])
@@ -55,4 +56,8 @@ def mb_function(z, c, counter):
 
 
 if __name__ == "__main__":
-    draw_julia_set()
+    select_set_to_draw = "Julia"
+    if(MBorJulia[select_set_to_draw]):
+        draw_mandelbrot()
+    else:
+        draw_julia_set()
