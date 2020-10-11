@@ -6,19 +6,21 @@ current_path = sys.path[0]
 MBorJulia = {"MB": 1, "Julia": 0}
 
 IMG_RATIO = 16/9
-IMG_HEIGHT = 1000
+IMG_HEIGHT = 2160
 IMG_WIDTH = int(IMG_RATIO * IMG_HEIGHT)
 
-RANGE_X = (-1.5*IMG_RATIO, 3.0*IMG_RATIO)
-RANGE_Y = (-1.5, 3.0)
+FOCAL_POINT = (0, 0)
+ZOOM = 1
+RANGE_X = (((-1.5*IMG_RATIO)/ZOOM) + FOCAL_POINT[0], (3.0*IMG_RATIO)/ZOOM)
+RANGE_Y = ((-1.5/ZOOM) + FOCAL_POINT[1], 3.0/ZOOM)
 
 ITERATIONS = 255
-EXP_DEGREE = 5
+EXP_DEGREE = 2
 ESCAPE_RADIUS = 2**EXP_DEGREE
-JUL_CMPLX = complex(0.8, 0.6)
+JUL_CMPLX = complex(-0.835, -0.2321)
 
 matplotpalette = matplotlib.colors.LinearSegmentedColormap.from_list(
-    "", [matplotlib.colors.to_rgb("#000020"), "teal", "linen"], N=256)
+    "", [matplotlib.colors.to_rgb("#000020"), "gold", "firebrick"], N=256)
 palette = []
 for i in range(ITERATIONS+1):
     matplotcolor = matplotlib.colors.to_rgb(matplotpalette((1/255.0)*i))
