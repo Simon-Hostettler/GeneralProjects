@@ -1,5 +1,3 @@
 .vscode/settings.json
-MBJuliaSetGenerator/Images/Julia3.png
-MBJuliaSetGenerator/Images/Julia4.png
-MBJuliaSetGenerator/Images/Julia.png
-MBJuliaSetGenerator/__pycache__/palette.cpython-37.pyc
+MBJuliaSetGenerator/Images/
+MBJuliaSetGenerator/__pycache__/
