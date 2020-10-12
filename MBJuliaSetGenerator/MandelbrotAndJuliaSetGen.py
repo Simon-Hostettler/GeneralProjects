@@ -3,7 +3,6 @@ import sys
 import matplotlib.colors
 
 current_path = sys.path[0]
-MBorJulia = {"MB": 1, "Julia": 0}
 
 IMG_RATIO = 16/9
 IMG_HEIGHT = 2160
@@ -67,7 +66,7 @@ def mb_function(z, c, counter):
 
 if __name__ == "__main__":
     select_set_to_draw = "Julia"
-    if(MBorJulia[select_set_to_draw]):
+    if(select_set_to_draw == "MB"):
         draw_mandelbrot()
     else:
         draw_julia_set()
