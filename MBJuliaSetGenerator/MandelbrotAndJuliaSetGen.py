@@ -16,10 +16,10 @@ RANGE_Y = ((-1.5/ZOOM) + FOCAL_POINT[1], 3.0/ZOOM)
 ITERATIONS = 255
 EXP_DEGREE = 2
 ESCAPE_RADIUS = 2**EXP_DEGREE
-JUL_CMPLX = complex(-0.833, -0.2321)
+JUL_CMPLX = complex(-0.4, 0.6)
 
 matplotpalette = matplotlib.colors.LinearSegmentedColormap.from_list(
-    "", [matplotlib.colors.to_rgb("#000020"), "gold", "firebrick"], N=256)
+    "", [matplotlib.colors.to_rgb("#000020"), "yellow", "firebrick"], N=256)
 palette = []
 for i in range(ITERATIONS+1):
     matplotcolor = matplotlib.colors.to_rgb(matplotpalette((1/255.0)*i))
@@ -39,7 +39,7 @@ def draw_mandelbrot():
             img.putpixel((x, y), palette[iterations])
         x % 100 == 0 and print(f"Column {x}/{IMG_WIDTH} is done")
 
-    img.save(current_path + "\\Images\\Mandelbrot.png", quality=100)
+    img.save(current_path + "/Images/Mandelbrot.png", quality=100)
 
 
 def draw_julia_set():
@@ -53,7 +53,7 @@ def draw_julia_set():
             img.putpixel((x, y), palette[iterations])
         x % 100 == 0 and print(f"Column {x}/{IMG_WIDTH} is done")
 
-    img.save(current_path + "\\Images\\Julia.png", quality=100)
+    img.save(current_path + "/Images/Julia.png", quality=100)
 
 
 def mb_function(z, c, counter):
