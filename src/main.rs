@@ -22,17 +22,19 @@ fn main() {
 
     for x in 0..width {
         for y in 0..height {
+            //calculating the complex number z for the current pixel
             let mut zx = range_x[0] + x as f32 * (x_unit);
             let mut zy = range_y[0].abs() - y as f32 * (y_unit);
             let mut iterator: u32 = 0;
 
+            //checking number of iterations for current cmplx
             while (zx * zx + zy * zy) <= 4.0 && iterator < 255 {
                 let xtemp = zx * zx - (zy * zy);
                 zy = (2.0 * zx * zy) + julia_cmplx.1;
                 zx = xtemp + julia_cmplx.0;
                 iterator += 1;
             }
-
+            //if iterations <= 128 picks Rgb-color from the first map, second else
             let it_col: RGBColor;
             if iterator <= 128 {
                 it_col = cmap1.transform_single((1.0 / 128.0) * iterator as f64)
