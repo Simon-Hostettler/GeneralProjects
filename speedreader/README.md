@@ -3,7 +3,8 @@ This is a simple CLI speedreader tool written in Python with curses. It takes an
 Arguments are passed as follows:
 
 ```
-python3 speedreader.py hello.txt 400
+python3 speedreader.py lorem.txt 400
 ```
 
 Example:
+![example](example.png)
