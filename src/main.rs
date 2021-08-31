@@ -4,9 +4,26 @@ use std::path::Path;
 use std::string::String;
 
 fn main() {
-    encode(Path::new(""), "Nobody expects the spanish inquisition");
-    let msg = decode(Path::new(""));
-    println!("{}", msg);
+    let args: Vec<String> = std::env::args().collect();
+    match args.len() {
+        3 => {
+            if &args[1] == "dec" {
+                println!("{}", decode(Path::new(&args[2])));
+            } else {
+                eprintln!("Incorrect usage of command, args should be: (enc | dec) src [message]")
+            }
+        }
+        4 => {
+            if &args[1] == "enc" {
+                encode(Path::new(&args[2]), &args[3]);
+            } else {
+                eprintln!("Incorrect usage of command, args should be: (enc | dec) src [message]")
+            }
+        }
+        _ => {
+            eprintln!("Incorrect usage of command, args should be: (enc | dec) src [message]")
+        }
+    }
 }
 
 fn encode(source: &Path, msg: &str) {
@@ -23,12 +40,12 @@ fn encode(source: &Path, msg: &str) {
     };
     //encode number of characters to be written, will be stored in first 16 pixels
     for i in (0..=15).rev() {
-        let cur_pixel = get_pixel_pos(pixel_counter, w);
-        let oc_pixel = image.get_pixel(cur_pixel.0, cur_pixel.1);
+        let pixel_pos = get_pixel_pos(pixel_counter, w);
+        let oc_pixel = image.get_pixel(pixel_pos.0, pixel_pos.1);
         let (r, g, mut b) = (oc_pixel[0], oc_pixel[1], oc_pixel[2]);
         b = (b & 0b11111100) | (((msg_length >> i * 2) as u8) & 0b00000011);
         let new_pixel = Rgb::from_channels(r, g, b, 0);
-        image.put_pixel(cur_pixel.0, cur_pixel.1, new_pixel);
+        image.put_pixel(pixel_pos.0, pixel_pos.1, new_pixel);
         pixel_counter += 1;
     }
     //encode message in the LSB of the blue channel of pixels, 2 bits per pixel
@@ -40,12 +57,12 @@ fn encode(source: &Path, msg: &str) {
             character & 0b00000011,
         ];
         for i in 0..=3 {
-            let cur_pixel = get_pixel_pos(pixel_counter, w);
-            let oc_pixel = image.get_pixel(cur_pixel.0, cur_pixel.1);
+            let pixel_pos = get_pixel_pos(pixel_counter, w);
+            let oc_pixel = image.get_pixel(pixel_pos.0, pixel_pos.1);
             let (r, g, mut b) = (oc_pixel[0], oc_pixel[1], oc_pixel[2]);
             b = (b & 0b11111100) | char_parts[i];
             let new_pixel = Rgb::from_channels(r, g, b, 0);
-            image.put_pixel(cur_pixel.0, cur_pixel.1, new_pixel);
+            image.put_pixel(pixel_pos.0, pixel_pos.1, new_pixel);
             pixel_counter += 1;
         }
     }
@@ -59,8 +76,8 @@ fn decode(source: &Path) -> String {
     let mut pixel_counter = 0;
     //read number of encoded characters from the first 16 bits
     for i in (0..=15).rev() {
-        let cur_pixel = get_pixel_pos(pixel_counter, w);
-        let oc_pixel = image.get_pixel(cur_pixel.0, cur_pixel.1);
+        let pixel_pos = get_pixel_pos(pixel_counter, w);
+        let oc_pixel = image.get_pixel(pixel_pos.0, pixel_pos.1);
         let b = oc_pixel[2];
         msg_length |= ((b & 0b00000011) as u32) << i * 2;
         pixel_counter += 1;
@@ -70,8 +87,8 @@ fn decode(source: &Path) -> String {
     for _ in 0..msg_length {
         let mut character: u8 = 0;
         for j in (0..=3).rev() {
-            let cur_pixel = get_pixel_pos(pixel_counter, w);
-            let oc_pixel = image.get_pixel(cur_pixel.0, cur_pixel.1);
+            let pixel_pos = get_pixel_pos(pixel_counter, w);
+            let oc_pixel = image.get_pixel(pixel_pos.0, pixel_pos.1);
             let b = oc_pixel[2];
             character |= (b & 0b00000011) << j * 2;
             pixel_counter += 1;
@@ -88,6 +105,7 @@ fn decode(source: &Path) -> String {
     }
 }
 
+//get coordinates of a pixel given the number of the pixel
 fn get_pixel_pos(counter: u32, w: u32) -> (u32, u32) {
     (counter % w, counter / w)
 }
