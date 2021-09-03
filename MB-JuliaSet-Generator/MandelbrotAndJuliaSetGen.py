@@ -32,7 +32,7 @@ if not os.path.exists(current_path + "/Images/"):
 
 # Settings for Image resolution
 IMG_RATIO = 16/9
-IMG_HEIGHT = 1080
+IMG_HEIGHT = 2160
 IMG_WIDTH = int(IMG_RATIO * IMG_HEIGHT)
 
 # Zoom and focal point functions, the smaller zoom is, the further out the image will be rendered
