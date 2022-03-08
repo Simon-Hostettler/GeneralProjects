@@ -15,11 +15,28 @@ class PyToDo(tk.Frame):
         self.entry = tk.Entry(
             self.parent, textvariable=self.entry_string, bg="#2B3036", fg='#ffffff')
         self.entry.bind("<Return>", self.enter)
-        self.entry.pack(fill=tk.BOTH, padx=10, pady=10)
+        self.entry.grid(row=0, column=0, sticky="new")
+
+        label_text1 = tk.StringVar()
+        label_text1.set("TODO:")
+        self.todolabel = tk.Label(parent, textvariable=label_text1,
+                                  bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w")
+        self.todolabel.grid(row=1, column=0, sticky="ew", pady=10)
 
         self.tasks = []
         self.taskframe = tk.Frame(parent, bg="#1f2428")
-        self.taskframe.pack(fill=tk.BOTH, padx=10, pady=10)
+        self.taskframe.grid(row=2, column=0, sticky="new")
+
+        label_text2 = tk.StringVar()
+        label_text2.set("Done:")
+        self.todolabel = tk.Label(parent, textvariable=label_text2,
+                                  bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w")
+        self.todolabel.grid(row=3, column=0, sticky="ew", pady=10)
+
+        self.doneframe = tk.Frame(parent, bg="#1f2428")
+        self.doneframe.grid(row=4, column=0, sticky="new")
+
+        parent.grid_columnconfigure(0, weight=1)
 
         if os.path.exists("tdlist"):
             with open("tdlist", "r") as f:
@@ -46,13 +63,25 @@ class PyToDo(tk.Frame):
 
         tframe.grid_rowconfigure(0, weight=1)
         tframe.grid_columnconfigure(0, weight=1)
-        # task.pack(fill=tk.BOTH)
 
         tframe.pack(fill=tk.BOTH)
 
     def remove_task(self, frame, task):
         self.tasks.remove(task)
+
+        label_text = tk.StringVar()
+        label_text.set(self.strike(task.cget("text")))
+        task = tk.Label(self.doneframe, borderwidth=2, relief="ridge", textvariable=label_text,
+                        bg="#2B3036", fg='#ffffff', padx=10, pady=3, anchor="w")
+        task.pack(fill=tk.BOTH)
+
         frame.destroy()
+
+    def strike(self, text):
+        res = ''
+        for char in text:
+            res += char + '\u0336'
+        return res
 
     def on_close(self):
         with open("tdlist", "w") as f:
