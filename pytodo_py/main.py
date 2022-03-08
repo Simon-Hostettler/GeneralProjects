@@ -13,14 +13,14 @@ class PyToDo(tk.Frame):
 
         self.entry_string = tk.StringVar()
         self.entry = tk.Entry(
-            self.parent, textvariable=self.entry_string, bg="#2B3036", fg='#ffffff')
+            self.parent, textvariable=self.entry_string, bg="#2B3036", fg='#ffffff', font="Ubuntu 11")
         self.entry.bind("<Return>", self.enter)
         self.entry.grid(row=0, column=0, sticky="new", padx=10, pady=20)
 
         label_text1 = tk.StringVar()
-        label_text1.set("TODO:")
+        label_text1.set("To Do:")
         self.todolabel = tk.Label(parent, textvariable=label_text1,
-                                  bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w")
+                                  bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w", font="Ubuntu 11 bold")
         self.todolabel.grid(row=1, column=0, sticky="ew")
 
         self.tasks = []
@@ -29,9 +29,9 @@ class PyToDo(tk.Frame):
 
         label_text2 = tk.StringVar()
         label_text2.set("Done:")
-        self.todolabel = tk.Label(parent, textvariable=label_text2,
-                                  bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w")
-        self.todolabel.grid(row=3, column=0, sticky="ew", pady=10)
+        self.donelabel = tk.Label(parent, textvariable=label_text2,
+                                  bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w", font="Ubuntu 11 bold")
+        self.donelabel.grid(row=3, column=0, sticky="ew", pady=10)
 
         self.doneframe = tk.Frame(parent, bg="#1f2428")
         self.doneframe.grid(row=4, column=0, sticky="new", padx=10, pady=5)
@@ -53,12 +53,12 @@ class PyToDo(tk.Frame):
         label_text = tk.StringVar()
         label_text.set("• " + text)
         task = tk.Label(tframe, borderwidth=2, relief="ridge", textvariable=label_text,
-                        bg="#2B3036", fg='#ffffff', padx=10, pady=3, anchor="w")
+                        bg="#2B3036", fg='#ffffff', padx=10, pady=3, anchor="w", font="Ubuntu 11")
         self.tasks.append(task)
         task.grid(row=0, column=0, sticky="nsew")
 
         button = tk.Button(
-            tframe, text="-", command=lambda: self.remove_task(tframe, task), bg="#2B3036", fg='#ffffff')
+            tframe, text="-", command=lambda: self.remove_task(tframe, task), bg="#2B3036", fg='#ffffff', font="Ubuntu 11")
         button.grid(row=0, column=6, sticky=tk.E)
 
         tframe.grid_rowconfigure(0, weight=1)
@@ -73,7 +73,7 @@ class PyToDo(tk.Frame):
         label_text = tk.StringVar()
         label_text.set(self.strike(task.cget("text")))
         task = tk.Label(self.doneframe, borderwidth=2, relief="ridge", textvariable=label_text,
-                        bg="#2B3036", fg='#ffffff', padx=10, pady=3, anchor="w")
+                        bg="#2B3036", fg='#ffffff', padx=10, pady=3, anchor="w", font="Ubuntu 11")
         task.pack(fill=tk.BOTH)
 
         frame.destroy()
