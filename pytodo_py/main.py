@@ -15,17 +15,17 @@ class PyToDo(tk.Frame):
         self.entry = tk.Entry(
             self.parent, textvariable=self.entry_string, bg="#2B3036", fg='#ffffff')
         self.entry.bind("<Return>", self.enter)
-        self.entry.grid(row=0, column=0, sticky="new")
+        self.entry.grid(row=0, column=0, sticky="new", padx=10, pady=20)
 
         label_text1 = tk.StringVar()
         label_text1.set("TODO:")
         self.todolabel = tk.Label(parent, textvariable=label_text1,
                                   bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w")
-        self.todolabel.grid(row=1, column=0, sticky="ew", pady=10)
+        self.todolabel.grid(row=1, column=0, sticky="ew")
 
         self.tasks = []
         self.taskframe = tk.Frame(parent, bg="#1f2428")
-        self.taskframe.grid(row=2, column=0, sticky="new")
+        self.taskframe.grid(row=2, column=0, sticky="new", padx=10, pady=5)
 
         label_text2 = tk.StringVar()
         label_text2.set("Done:")
@@ -34,7 +34,7 @@ class PyToDo(tk.Frame):
         self.todolabel.grid(row=3, column=0, sticky="ew", pady=10)
 
         self.doneframe = tk.Frame(parent, bg="#1f2428")
-        self.doneframe.grid(row=4, column=0, sticky="new")
+        self.doneframe.grid(row=4, column=0, sticky="new", padx=10, pady=5)
 
         parent.grid_columnconfigure(0, weight=1)
 
@@ -63,6 +63,7 @@ class PyToDo(tk.Frame):
 
         tframe.grid_rowconfigure(0, weight=1)
         tframe.grid_columnconfigure(0, weight=1)
+        # task.pack(fill=tk.BOTH)
 
         tframe.pack(fill=tk.BOTH)
 
