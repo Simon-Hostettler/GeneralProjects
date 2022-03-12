@@ -27,15 +27,6 @@ class PyToDo(tk.Frame):
         self.taskframe = tk.Frame(parent, bg="#1f2428")
         self.taskframe.grid(row=2, column=0, sticky="new", padx=10, pady=5)
 
-        label_text2 = tk.StringVar()
-        label_text2.set("Done:")
-        self.donelabel = tk.Label(parent, textvariable=label_text2,
-                                  bg="#1f2428", fg='#ffffff', padx=10, pady=3, anchor="w", font="Ubuntu 11 bold")
-        self.donelabel.grid(row=3, column=0, sticky="ew", pady=10)
-
-        self.doneframe = tk.Frame(parent, bg="#1f2428")
-        self.doneframe.grid(row=4, column=0, sticky="new", padx=10, pady=5)
-
         parent.grid_columnconfigure(0, weight=1)
 
         if os.path.exists("tdlist"):
@@ -57,25 +48,25 @@ class PyToDo(tk.Frame):
         self.tasks.append(task)
         task.grid(row=0, column=0, sticky="nsew")
 
-        button = tk.Button(
+        button_cross = tk.Button(
+            tframe, text="✓", command=lambda: self.cross_task(button_cross, label_text), bg="#2B3036", fg='#ffffff', font="Ubuntu 11")
+        button_cross.grid(row=0, column=5, sticky=tk.E)
+
+        button_remove = tk.Button(
             tframe, text="-", command=lambda: self.remove_task(tframe, task), bg="#2B3036", fg='#ffffff', font="Ubuntu 11")
-        button.grid(row=0, column=6, sticky=tk.E)
+        button_remove.grid(row=0, column=6, sticky=tk.E)
 
         tframe.grid_rowconfigure(0, weight=1)
         tframe.grid_columnconfigure(0, weight=1)
-        # task.pack(fill=tk.BOTH)
 
         tframe.pack(fill=tk.BOTH)
 
+    def cross_task(self, button, label_text):
+        label_text.set(self.strike(label_text.get()))
+        button.destroy()
+
     def remove_task(self, frame, task):
         self.tasks.remove(task)
-
-        label_text = tk.StringVar()
-        label_text.set(self.strike(task.cget("text")))
-        task = tk.Label(self.doneframe, borderwidth=2, relief="ridge", textvariable=label_text,
-                        bg="#2B3036", fg='#ffffff', padx=10, pady=3, anchor="w", font="Ubuntu 11")
-        task.pack(fill=tk.BOTH)
-
         frame.destroy()
 
     def strike(self, text):
